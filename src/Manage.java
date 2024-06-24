@@ -8,7 +8,7 @@ public class Manage {
             System.out.println((i + 1) + ". " + hotels.get(i).getName());
         }
         int hotelChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
         Hotel selectedHotel = hotels.get(hotelChoice - 1);
 
         // Display management options
@@ -20,7 +20,7 @@ public class Manage {
         System.out.println("5. Remove reservation");
         System.out.println("6. Remove hotel");
         int manageChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         switch (manageChoice) {
             case 1:
@@ -62,10 +62,10 @@ public class Manage {
     private static void addRooms(Scanner scanner, Hotel hotel) {
         System.out.println("Enter number of rooms to add:");
         int numRooms = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
         System.out.println("Enter base price per night for new rooms:");
         double basePricePerNight = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         String initials = Hotel.getInitials(hotel.getName());
         List<Room> rooms = hotel.getRooms();
@@ -85,7 +85,7 @@ public class Manage {
     private static void removeRooms(Scanner scanner, Hotel hotel) {
         System.out.println("Enter number of rooms to remove:");
         int numRoomsToRemove = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         List<Room> rooms = hotel.getRooms();
         int roomCount = rooms.size();
@@ -113,7 +113,7 @@ public class Manage {
 
         System.out.println("Enter new base price (>= 100.0):");
         double newBasePrice = scanner.nextDouble();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
 
         if (newBasePrice < 100.0) {
             System.out.println("New price must be >= 100.0.");
