@@ -9,7 +9,7 @@ public class View {
             System.out.println((i + 1) + ". " + hotels.get(i).getName());
         }
         int hotelChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine(); 
         Hotel selectedHotel = hotels.get(hotelChoice - 1);
 
         // Display high-level information
@@ -21,7 +21,7 @@ public class View {
         System.out.println("2. Information about a selected room");
         System.out.println("3. Information about a selected reservation");
         int infoChoice = scanner.nextInt();
-        scanner.nextLine(); // Consume newline character
+        scanner.nextLine();
 
         switch (infoChoice) {
             case 1:
