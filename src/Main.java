@@ -16,7 +16,7 @@ public class Main {
             System.out.print("Your Choice: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline character
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -40,7 +40,7 @@ public class Main {
                     if (hotels.isEmpty()) {
                         System.out.println("No hotels available. Please create a hotel first.");
                     } else {
-                        // Implement viewing bookings functionality
+                     
                     }
                     break;
                 case 5:
