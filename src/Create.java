@@ -36,7 +36,7 @@ public class Create {
         // Initialize the hotel's availability in DateUtil
         DateUtil.initializeHotelAvailability(hotelName, numRooms);
 
-        // Optionally, display hotel information to verify
+        //  display hotel information to verify
         System.out.println("Hotel " + hotelName + " has been created with " + numRooms + " rooms.");
         if (!rooms.isEmpty()) {
             Room exampleRoom = rooms.get(0);
