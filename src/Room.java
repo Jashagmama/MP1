@@ -3,12 +3,12 @@ import java.util.*;
 public class Room {
     private String name;
     private double basePricePerNight;
-    private String hotelName; // Added hotel name
+    private String hotelName; 
 
     public Room(String name, double basePricePerNight, String hotelName) {
         this.name = name;
         this.basePricePerNight = basePricePerNight;
-        this.hotelName = hotelName; // Initialize hotel name
+        this.hotelName = hotelName; 
     }
 
     public String getName() {
