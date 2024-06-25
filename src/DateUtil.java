@@ -7,7 +7,15 @@ public class DateUtil {
 
     // Map to store availability per hotel
     private static final Map<String, Map<Integer, Set<Integer>>> hotelAvailability = new HashMap<>();
-
+    
+    /**
+     * This method converts a date in String format into a date object.
+     * 
+     * @param dateString the date in String format
+     * 
+     * @return null if the date format is invalid
+     */
+    
     public static Date parseDate(String dateString) {
         try {
             return dateFormat.parse(dateString);
@@ -16,10 +24,25 @@ public class DateUtil {
             return null;
         }
     }
+    
+    /**
+     * This method converts a date object into a string.
+     * 
+     * @param date the date
+     * 
+     * @return the date in String format
+     */
 
     public static String formatDate(Date date) {
         return dateFormat.format(date);
     }
+    
+    /**
+     * This method initializes the availability of the hotel with the given number of rooms.
+     * 
+     * @param hotelName the name of the hotel
+     * @param numRooms the number of rooms in the hotel
+     */
 
     // Initialize the hotel's availability with the given number of rooms
     public static void initializeHotelAvailability(String hotelName, int numRooms) {
@@ -34,6 +57,16 @@ public class DateUtil {
         hotelAvailability.put(hotelName, availability);
     }
 
+    /**
+     * This method checks whether the room is available or not on a specified date.
+     * 
+     * @param hotelName the name of the hotel
+     * @param date the date
+     * 
+     * @return true if the parameter days is not null and 
+     * contains the specified day and false ifvotherwise
+     */
+    
     public static boolean isDateAvailable(String hotelName, Room room, Date checkInDate, Date checkOutDate) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(checkInDate);
@@ -84,6 +117,14 @@ public class DateUtil {
 
         return true;
     }
+    
+    /**
+     * This method marks the date as booked in relation to the booking date.
+     * 
+     * @param hotelName the name of the hotel
+     * @param date the date
+     */
+    
     public static void bookDate(String hotelName, Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -99,6 +140,13 @@ public class DateUtil {
         }
     }
 
+    /**
+     * This method marks the date as available and adds it to the available dates at the hotel.
+     * 
+     * @param hotelName the name of the hotel
+     * @param date the date
+     */
+    
     public static void releaseDate(String hotelName, Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -114,6 +162,12 @@ public class DateUtil {
         }
     }
 
+    /**
+     * This method displays the dates available at the hotel.
+     * 
+     * @param hotelName the name of the hotel
+     */
+    
     public static void displayAvailableDates(String hotelName) {
         Map<Integer, Set<Integer>> availability = hotelAvailability.get(hotelName);
         if (availability == null) {
@@ -127,6 +181,14 @@ public class DateUtil {
             System.out.println(getMonthName(month) + " - " + days.size() + " days available");
         }
     }
+    
+    /**
+     * This method converts the month in integer format to String format.
+     * 
+     * @param month the month in integer format
+     * 
+     * @return returns the month in String forma
+     */
 
     private static String getMonthName(int month) {
         String[] monthNames = {"January", "February", "March", "April", "May", "June",
@@ -134,6 +196,13 @@ public class DateUtil {
         return monthNames[month - 1];
     }
 
+    /**
+     * This method displays the room availabilty for a selected month.
+     * 
+     * @param room the room object containing its details
+
+     */
+    
     public static void displayRoomAvailabilityForMonth(Room room) {
         String hotelName = room.getHotelName();
         System.out.println("Availability for Room: " + room.getName());

@@ -1,6 +1,15 @@
 import java.util.*;
 
 public class Manage {
+	
+	/**
+	 * This method manages the details of the hotel where you can change the hotel name, 
+	 * add rooms, remove rooms, update base price, remove reservations, and remove hotel.
+	 * 
+	 * @param scanner the scanner object that accepts input from the user
+	 * @param hotels the Array List of hotels created
+	 */
+	
     public static void manageHotel(Scanner scanner, List<Hotel> hotels) {
         // Select a hotel
     	Display.displayHeadline();
@@ -52,6 +61,13 @@ public class Manage {
         }
     }
 
+    /**
+     * This method changes the name of the hotel.
+     * 
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotel the hotel whose name will be changed
+     */
+    
     private static void changeHotelName(Scanner scanner, Hotel hotel) {
     	Display.displaySpacer();
     	Display.displayHeadline();
@@ -61,6 +77,12 @@ public class Manage {
         Display.displayHeadline();
         System.out.println("Hotel name updated to " + newName);
     }
+    
+    /**
+     * This method adds rooms to a hotel.
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotel the hotel to which rooms will be added
+     */
 
     public static void addRooms(Scanner scanner, Hotel selectedHotel) {
         System.out.println("Enter number of rooms to add:");
@@ -80,7 +102,12 @@ public class Manage {
         Display.displayHeadline();
     }
 
-
+    /**
+     * This method removes rooms from a hotel.
+     * 
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotel the hotel to which rooms will be removed
+     */
 
     private static void removeRooms(Scanner scanner, Hotel hotel) {
         System.out.println("Enter room name to remove:");
@@ -101,6 +128,13 @@ public class Manage {
         System.out.println("Room " + roomName + " removed from the hotel " + hotel.getName());
     }
 
+    /**
+     * This method updates the base price of the room per night.
+     * 
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotel the hotel to which the base price of the rooms will be changed
+     */
+    
     private static void updateRoomPrice(Scanner scanner, Hotel hotel) {
         System.out.println("Enter new base price for all rooms:");
         double newPrice = scanner.nextDouble();
@@ -124,6 +158,13 @@ public class Manage {
 
         System.out.println("Base price for all rooms updated to " + newPrice);
     }
+    
+    /**
+     * This method removes the reservation from a booking.
+     * 
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotel the hotel to which the reservation will be removed
+     */
 
     private static void removeReservation(Scanner scanner, Hotel hotel) {
         System.out.println("Enter guest name to remove reservation:");
@@ -138,6 +179,14 @@ public class Manage {
         hotel.removeBooking(booking);
         System.out.println("Booking for guest " + guestName + " removed.");
     }
+    
+    /**
+     * This method removes the hotel completely from the hotel Array List.
+     * 
+     * @param scanner the scanner object that accepts input from the user
+     * @param hotels an Array List that has the list of hotel
+     * @param hotel the hotel to be removed
+     */
 
     private static void removeHotel(Scanner scanner, List<Hotel> hotels, Hotel hotel) {
         hotels.remove(hotel);

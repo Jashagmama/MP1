@@ -1,6 +1,15 @@
 import java.util.*;
 
 public class Create {
+	
+	/**
+	 * This method creates a hotel that consists of a hotel name, number of rooms, 
+	 * base price of the rooms per night, and the room names.
+	 * 
+	 * @param scanner the scanner object that accepts input from the user
+	 * @param hotels the Array List of hotels
+	 */
+	
 	public static void createHotel(Scanner scanner, List<Hotel> hotels) {
 	    // Get hotel name from user
 		Display.displayHeadline();
