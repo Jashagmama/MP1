@@ -3,15 +3,19 @@ import java.util.*;
 public class Manage {
     public static void manageHotel(Scanner scanner, List<Hotel> hotels) {
         // Select a hotel
-        System.out.println("Select a hotel:");
+    	Display.displayHeadline();
+    	System.out.println("Select a hotel to manage:");
         for (int i = 0; i < hotels.size(); i++) {
             System.out.println((i + 1) + ". " + hotels.get(i).getName());
         }
+        System.out.print("Your Choice: ");
         int hotelChoice = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine(); // Consume newline character
         Hotel selectedHotel = hotels.get(hotelChoice - 1);
 
         // Display management options
+        Display.displaySpacer();
+        Display.displayHeadline();
         System.out.println("Manage Hotel:");
         System.out.println("1. Change hotel name");
         System.out.println("2. Add room(s)");
@@ -19,8 +23,9 @@ public class Manage {
         System.out.println("4. Update base price for a room");
         System.out.println("5. Remove reservation");
         System.out.println("6. Remove hotel");
+        System.out.print("Your Choice: ");
         int manageChoice = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine(); // Consume newline character
 
         switch (manageChoice) {
             case 1:
@@ -48,106 +53,94 @@ public class Manage {
     }
 
     private static void changeHotelName(Scanner scanner, Hotel hotel) {
-        System.out.println("Enter new hotel name:");
-        String newHotelName = scanner.nextLine();
-        String initials = Hotel.getInitials(newHotelName);
-        hotel.setName(newHotelName);
-        for (Room room : hotel.getRooms()) {
-            String roomName = initials + room.getName().substring(3); // Keep the numeric part of the room name
-            room.setName(roomName);
-        }
-        System.out.println("Hotel name changed to " + newHotelName);
+    	Display.displaySpacer();
+    	Display.displayHeadline();
+    	System.out.println("Enter new hotel name:");
+        String newName = scanner.nextLine();
+        hotel.setName(newName);
+        Display.displayHeadline();
+        System.out.println("Hotel name updated to " + newName);
     }
 
-    private static void addRooms(Scanner scanner, Hotel hotel) {
+    public static void addRooms(Scanner scanner, Hotel selectedHotel) {
         System.out.println("Enter number of rooms to add:");
         int numRooms = scanner.nextInt();
-        scanner.nextLine(); 
-        System.out.println("Enter base price per night for new rooms:");
-        double basePricePerNight = scanner.nextDouble();
-        scanner.nextLine(); 
+        scanner.nextLine(); // Consume newline character
 
-        String initials = Hotel.getInitials(hotel.getName());
-        List<Room> rooms = hotel.getRooms();
-        int existingRoomCount = rooms.size();
+        String initials = Hotel.getInitials(selectedHotel.getName());
 
+        // Add rooms to the hotel with a base price of 1299.0
         for (int i = 0; i < numRooms; i++) {
-            String roomName = initials + String.format("%04d", existingRoomCount + i + 1);
-            Room room = new Room(roomName, basePricePerNight, hotel.getName());
-            hotel.addRoom(room);
+            String roomName = initials + String.format("%04d", selectedHotel.getRooms().size() + 1);
+            Room room = new Room(roomName, 1299.0, selectedHotel.getName());
+            selectedHotel.addRoom(room);
         }
 
-        DateUtil.addRoomAvailability(hotel.getName(), numRooms);
-
-        System.out.println(numRooms + " rooms added to " + hotel.getName());
+        System.out.println(numRooms + " rooms added to the hotel " + selectedHotel.getName());
+        Display.displayHeadline();
     }
 
+
+
     private static void removeRooms(Scanner scanner, Hotel hotel) {
-        System.out.println("Enter number of rooms to remove:");
-        int numRoomsToRemove = scanner.nextInt();
-        scanner.nextLine(); 
+        System.out.println("Enter room name to remove:");
+        String roomName = scanner.nextLine();
+        Room room = hotel.getRoomByName(roomName);
 
-        List<Room> rooms = hotel.getRooms();
-        int roomCount = rooms.size();
-        int removableRoomsCount = roomCount - hotel.getBookings().size();
-
-        if (numRoomsToRemove > removableRoomsCount) {
-            System.out.println("Only " + removableRoomsCount + " rooms can be removed.");
+        if (room == null) {
+            System.out.println("Room not found.");
             return;
         }
 
-        for (int i = 0; i < numRoomsToRemove; i++) {
-            rooms.remove(roomCount - i - 1);
+        if (!room.isAvailable(null, null)) {
+            System.out.println("Room cannot be removed as it has an active reservation.");
+            return;
         }
 
-        DateUtil.removeRoomAvailability(hotel.getName(), numRoomsToRemove);
-
-        System.out.println(numRoomsToRemove + " rooms removed from " + hotel.getName());
+        hotel.removeRoom(room);
+        System.out.println("Room " + roomName + " removed from the hotel " + hotel.getName());
     }
 
     private static void updateRoomPrice(Scanner scanner, Hotel hotel) {
-        if (!hotel.getBookings().isEmpty()) {
-            System.out.println("Cannot update room price. Active reservations exist.");
-            return;
-        }
+        System.out.println("Enter new base price for all rooms:");
+        double newPrice = scanner.nextDouble();
+        scanner.nextLine(); // Consume newline character
 
-        System.out.println("Enter new base price (>= 100.0):");
-        double newBasePrice = scanner.nextDouble();
-        scanner.nextLine(); 
-
-        if (newBasePrice < 100.0) {
+        if (newPrice < 100.0) {
             System.out.println("New price must be >= 100.0.");
             return;
         }
 
         for (Room room : hotel.getRooms()) {
-            room.setBasePricePerNight(newBasePrice);
+            if (!room.isAvailable(null, null)) {
+                System.out.println("Cannot update price as there are active reservations.");
+                return;
+            }
         }
 
-        System.out.println("Base price updated to " + newBasePrice);
+        for (Room room : hotel.getRooms()) {
+            room.setBasePricePerNight(newPrice);
+        }
+
+        System.out.println("Base price for all rooms updated to " + newPrice);
     }
 
     private static void removeReservation(Scanner scanner, Hotel hotel) {
-        System.out.println("Enter guest name for the reservation to remove:");
+        System.out.println("Enter guest name to remove reservation:");
         String guestName = scanner.nextLine();
         Booking booking = hotel.getBookingByGuestName(guestName);
 
         if (booking == null) {
-            System.out.println("Reservation not found.");
+            System.out.println("Booking not found.");
             return;
         }
 
         hotel.removeBooking(booking);
-        System.out.println("Reservation removed for guest: " + guestName);
+        System.out.println("Booking for guest " + guestName + " removed.");
     }
 
     private static void removeHotel(Scanner scanner, List<Hotel> hotels, Hotel hotel) {
-        if (!hotel.getBookings().isEmpty()) {
-            System.out.println("Cannot remove hotel. Active reservations exist.");
-            return;
-        }
-
         hotels.remove(hotel);
-        System.out.println("Hotel " + hotel.getName() + " has been removed.");
+        System.out.println("Hotel " + hotel.getName() + " removed from the list.");
     }
 }

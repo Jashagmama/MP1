@@ -6,6 +6,11 @@ public class Display {
     
 	 public static void displayHeadline() {
 		 System.out.println("-----------------------------");
+	 } 
+	 
+	 public static void displaySpacer() {
+		 System.out.println(" ");
+		 System.out.println(" ");
 	 }
 	 
 	public static void displayNoOfRooms() {

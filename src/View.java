@@ -1,44 +1,69 @@
 import java.util.*;
-import java.text.SimpleDateFormat;
 
 public class View {
     public static void viewHotel(Scanner scanner, List<Hotel> hotels) {
         // Select a hotel
-        System.out.println("Select a hotel:");
+    	Display.displayHeadline();
+    	System.out.println("Select a hotel:");
         for (int i = 0; i < hotels.size(); i++) {
             System.out.println((i + 1) + ". " + hotels.get(i).getName());
         }
+        System.out.print("Your Choice");
         int hotelChoice = scanner.nextInt();
-        scanner.nextLine(); 
+        scanner.nextLine(); // Consume newline character
         Hotel selectedHotel = hotels.get(hotelChoice - 1);
-
-        // Display high-level information
-        displayHighLevelInfo(selectedHotel);
-
-        // Ask for low-level information
-        System.out.println("Select low-level information:");
-        System.out.println("1. Total number of available and booked rooms for a selected date");
-        System.out.println("2. Information about a selected room");
-        System.out.println("3. Information about a selected reservation");
-        int infoChoice = scanner.nextInt();
-        scanner.nextLine();
-
-        switch (infoChoice) {
-            case 1:
-                displayRoomAvailabilityForDate(scanner, selectedHotel);
-                break;
-            case 2:
-                displayRoomInfo(scanner, selectedHotel);
-                break;
-            case 3:
-                displayReservationInfo(scanner, selectedHotel);
-                break;
-            default:
-                System.out.println("Invalid choice. Please try again.");
+        Display.displayHeadline();
+       
+        Display.displaySpacer();
+        Display.displayHeadline();
+        System.out.println("1: High Level:");
+        System.out.println("2: Low Level:");
+        System.out.print("Your Choice: ");
+        
+        int LevelChoice = scanner.nextInt();
+        scanner.nextLine(); // Consume newline character
+        switch (LevelChoice) {
+        		case 1:
+        			// Display high-level information
+        	        displayHighLevelInfo(selectedHotel);
+        	        break;
+        	        
+        		case 2:{
+        		Display.displayHeadline();
+                System.out.println("Select low-level information:");
+                System.out.println("1. Total number of available and booked rooms for a selected date");
+                System.out.println("2. Information about a selected room");
+                System.out.println("3. Information about a selected reservation");
+                
+                System.out.print("Your Choice");
+                int infoChoice = scanner.nextInt();
+                scanner.nextLine(); // Consume newline character
+                Display.displayHeadline();
+                
+                switch (infoChoice) {
+                    case 1:
+                        displayRoomAvailabilityForDate(scanner, selectedHotel);
+                        break;
+                    case 2:
+                        displayRoomInfo(scanner, selectedHotel);
+                        break;
+                    case 3:
+                        displayReservationInfo(scanner, selectedHotel);
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                        break;
+                } break; 
+                
+        			}
+        		default:
+        		System.out.println("Invalid choice. Please try again.");
                 break;
         }
-    }
+        
+        		}
 
+        
     private static void displayHighLevelInfo(Hotel hotel) {
         System.out.println("Hotel Name: " + hotel.getName());
         System.out.println("Total number of rooms: " + hotel.getRooms().size());
@@ -66,7 +91,7 @@ public class View {
         int availableRooms = 0;
         int bookedRooms = 0;
         for (Room room : hotel.getRooms()) {
-            if (room.isAvailable(date)) {
+            if (room.isAvailable(date, date)) {
                 availableRooms++;
             } else {
                 bookedRooms++;

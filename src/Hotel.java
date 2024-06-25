@@ -2,6 +2,7 @@ import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Hotel {
     private String name;
     private List<Room> rooms;
@@ -12,6 +13,8 @@ public class Hotel {
         this.rooms = new ArrayList<>();
         this.bookings = new ArrayList<>();
     }
+
+   
 
     public String getName() {
         return name;
@@ -51,5 +54,35 @@ public class Hotel {
             }
         }
         return initials.toString();
+    }
+
+    public Room getRoomByName(String roomName) {
+        for (Room room : rooms) {
+            if (room.getName().equals(roomName)) {
+                return room;
+            }
+        }
+        return null;
+    }
+
+    public Booking getBookingByGuestName(String guestName) {
+        for (Booking booking : bookings) {
+            if (booking.getGuestName().equals(guestName)) {
+                return booking;
+            }
+        }
+        return null;
+    }
+
+    public void removeBooking(Booking booking) {
+        bookings.remove(booking);
+    }
+
+    public void setName(String newHotelName) {
+        this.name = newHotelName;
+    }
+
+    public void removeRoom(Room room) {
+        rooms.remove(room);
     }
 }
